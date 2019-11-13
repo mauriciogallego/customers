@@ -5,13 +5,13 @@ export default class AddCustomer extends Component{
         return (
         <div>
             <form action="/api/customers" method="POST">
-                <label htmlFor="">Nombre Cliente</label>
+                <label htmlFor="Nombre">Nombre Cliente</label>
                 <input type="text" name="Nombre" id=""/>
-                <label htmlFor="">Apellido</label>
+                <label htmlFor="Apellido">Apellido</label>
                 <input type="text" name="Apellido" id=""/>
-                <label htmlFor="">Edad</label>
+                <label htmlFor="Edad">Edad</label>
                 <input type="number" name="Edad" id=""/>
-                <label htmlFor="">Mail</label>
+                <label htmlFor="Mail">Mail</label>
                 <input type="email" name="Mail" id=""/>
                 <input type="submit" value="Enviar"/>
             </form>

@@ -1,30 +1,43 @@
 console.log('AccessBD')
 const mongoDriver = require('mongodb');
 const {MongoClient, ObjectId} = mongoDriver;
+
+const Mongoose = require('mongoose');
+const {Customers} = require('./app-schema.js')
+
 var errConnect = false;
 var listCustomers;
-var db;
-MongoClient.connect("mongodb+srv://prueba:prueba@mytinerarybd-hndmb.mongodb.net/test?retryWrites=true&w=majority",{useUnifiedTopology : true},(err,client)=>{
+var uri = "mongodb+srv://mauricio:1@mytinerarybd-hndmb.mongodb.net/test?retryWrites=true&w=majority";
+MongoClient.connect(uri,{useUnifiedTopology : true, connectTimeoutMS: 10000},(err,client)=>{
     if (err) { 
       errConnect = true;
       console.log(err)
       }
       else{
-        db = client.db("CustomersPrueba");
+        let db = client.db("CustomersPrueba");
         listCustomers = db.collection("Customers");
         console.log('entro a la base')
       }
-  })
+  });
+
+
 
 if (!errConnect){
   module.exports = {
     getListCustomers(callback){
-      console.log(listCustomers.find())
+      listCustomers.find().toArray((err,docs)=>{
+        callback(docs)
+      })
       //callback()
     },
     setCustomers(newCustomer, callback){
+      let modelCustomer = new Mongoose.model("Customers", Customers );
+      let mongoId = new Mongoose.Types.ObjectId();
+      newCustomer._id = mongoId;
+
+      newCustomer = modelCustomer(newCustomer);
       listCustomers.insertOne(newCustomer,()=>{
-        callback()
+      callback()
       })
     }
   }

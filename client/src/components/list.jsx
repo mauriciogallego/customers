@@ -11,12 +11,11 @@ export default class Customers extends Component{
 componentDidMount(){
   fetch('/api/customers')
     .then(function(res){
+      console.log(res)
       return res.json()
     })
     .then(function(res){
-      this.setState({
-        customer: res
-      })
+      console.log(res)
     })
     .catch(function(){
       console.log( "error conexion")
@@ -27,7 +26,9 @@ componentDidMount(){
     return (
       <div>
         <ul>
-          {this.state.customer}
+          {this.state.customer.map((i,k)=>{
+            return (<li>i.nombre</li>);
+          })}
         </ul>
       </div>
     );
