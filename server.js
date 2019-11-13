@@ -8,10 +8,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.route('/api/customers')
   .get((req,res)=>{
+    conexion.getListCustomers((json)=>{
+      console.log(json)
+      json = JSON.stringify(json)
+      res.json(json);
+    })
 
   })
-  .post(()=>{
-
+  .post((req,res)=>{
+    let newCustomer = {
+      Nombre : req.body.Nombre,
+      Apellido : req.body.Apellido,
+      Edad : req.body.Edad,
+      Mail : req.body.Mail
+    }
+    conexion.setCustomers(newCustomer, ()=>{
+      res.redirect("/")
+    })
   })
 var port = process.env.port || 5000
 

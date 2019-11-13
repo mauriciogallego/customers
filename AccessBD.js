@@ -1,19 +1,31 @@
+console.log('AccessBD')
 const mongoDriver = require('mongodb');
 const {MongoClient, ObjectId} = mongoDriver;
-let errConnect = false;
+var errConnect = false;
+var listCustomers;
+var db;
+MongoClient.connect("mongodb+srv://prueba:prueba@mytinerarybd-hndmb.mongodb.net/test?retryWrites=true&w=majority",{useUnifiedTopology : true},(err,client)=>{
+    if (err) { 
+      errConnect = true;
+      console.log(err)
+      }
+      else{
+        db = client.db("CustomersPrueba");
+        listCustomers = db.collection("Customers");
+        console.log('entro a la base')
+      }
+  })
 
-MongoClient.connect("mongodb+srv://mauriciogallego:1@mytinerarybd-hndmb.mongodb.net/test?retryWrites=true&w=majority",(err,client)=>{
-  if (err) { 
-    errConnect = true;
+if (!errConnect){
+  module.exports = {
+    getListCustomers(callback){
+      console.log(listCustomers.find())
+      //callback()
+    },
+    setCustomers(newCustomer, callback){
+      listCustomers.insertOne(newCustomer,()=>{
+        callback()
+      })
     }
-    else{
-      var db = client.db("CustomersPrueba");
-      console.log('entro a la bd')
-    }
-})
-
-module.exports = {
-  getListCustomers(){
-    return
   }
 }
