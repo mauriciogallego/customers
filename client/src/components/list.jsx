@@ -7,27 +7,18 @@ export default class Customers extends Component{
       customer : []
     }
   }
-  
+
 componentDidMount(){
-  fetch('/api/customers')
-    .then(function(res){
-      console.log(res)
-      return res.json()
-    })
-    .then(function(res){
-      console.log(res)
-    })
-    .catch(function(){
-      console.log( "error conexion")
-    })
+  getCustomerAsync()
+    .then(data => this.setState({customer : data}) );
 }
 
   render(){
     return (
-      <div>
+      <div id="">
         <ul>
           {this.state.customer.map((i,k)=>{
-            return (<li>i.nombre</li>);
+            return (<li hey={k}>{i.Nombre}</li>);
           })}
         </ul>
       </div>
@@ -35,3 +26,9 @@ componentDidMount(){
   }
 
 }
+
+async function getCustomerAsync(){
+  let response = await fetch('/api/customers');
+  let data = await response.json()
+  return data;
+}  
